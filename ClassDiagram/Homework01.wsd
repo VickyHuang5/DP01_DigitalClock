@@ -1,0 +1,32 @@
+@startuml DigitalClock
+
+class Clock {
+    -clocks
+    -calendar
+    +onTick()
+    +attach()
+    -setTime()
+    -getHour()
+    -getMinute()
+    -getSecond()
+}
+
+abstract class ClockObserver {
+    #clock
+    +update()
+}
+
+class DigitalClock {
+    -digitalClockFrame
+    -digitalClockPanel
+    -timeLabel
+    +DigitalClock()
+    +update()
+    -setDigitalClock()
+    -zeroFill()
+}
+
+ClockObserver <-- Clock
+ClockObserver <|-- DigitalClock
+
+@enduml
