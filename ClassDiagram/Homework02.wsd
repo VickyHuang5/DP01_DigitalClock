@@ -1,0 +1,38 @@
+@startuml DigitalClock
+
+class Clock {
+    -calendar
+    +onTick()
+    -setTime()
+    -getHour()
+    -getMinute()
+    -getSecond()
+}
+
+interface IClockSubscriber {
+    +update()
+    +onTheMinute()
+}
+
+class DigitalClock {
+    -digitalClockFrame
+    -digitalClockPanel
+    -timeLabel
+    +DigitalClock()
+    +update()
+    +onTheMinute()
+    -setDigitalClock()
+    -zeroFill()
+}
+
+class TopicService{
+    -clocks
+    -subscribersTopicMap
+    +attach()
+    +publish()
+}
+
+IClockSubscriber <-- TopicService
+IClockSubscriber <|-- DigitalClock
+
+@enduml
