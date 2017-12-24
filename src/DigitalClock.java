@@ -1,11 +1,12 @@
 import java.awt.*;
+
 import javax.swing.*;
 
 /**
  * 電子時鐘
  * @author 016417
  */
-public class DigitalClock extends ClockObserver {
+public class DigitalClock implements IClockSubscriber {
 
 	/**
 	 * 外框
@@ -27,9 +28,7 @@ public class DigitalClock extends ClockObserver {
 	 * 
 	 * @param clock
 	 */
-	public DigitalClock(Clock clock) {
-		this.clock = clock;
-		this.clock.attach(this);
+	public DigitalClock() {
 		setDigitalClock();
 	}
 
@@ -40,9 +39,17 @@ public class DigitalClock extends ClockObserver {
 	 * @param 分鐘
 	 * @param 秒數
 	 */
-	@Override
 	public void update(int hours, int minutes, int seconds) {
+		digitalClockPanel.setBackground(Color.lightGray);
 		timeLabel.setText(zeroFill(hours) + ":" + zeroFill(minutes) + ":" + zeroFill(seconds));
+	}
+	
+	/**
+	 * 整分0秒
+	 */
+	public void onTheMinute()
+	{
+		digitalClockPanel.setBackground(Color.red);
 	}
 
 	/**

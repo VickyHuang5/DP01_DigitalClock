@@ -2,13 +2,10 @@ import java.util.*;
 
 /**
  * 時鐘
+ * 
  * @author 016417
  */
 public class Clock {
-	/**
-	 * 時鐘觀察者清單
-	 */
-	private List<ClockObserver> clocks = new ArrayList<ClockObserver>();
 
 	/**
 	 * 月曆
@@ -16,23 +13,16 @@ public class Clock {
 	private Calendar calendar = new GregorianCalendar();
 
 	/**
-	 * 附加
-	 * @param clock 時鐘觀察者           
-	 */
-	public void attach(ClockObserver clock) {
-		clocks.add(clock);
-	}
-
-	/**
 	 * 報時
 	 */
-	public void onTick() {
+	public void onTick(TopicService topic) {
 		while (true) {
 			setTime();
-			for (ClockObserver clock : clocks) {
-				clock.update(getHour(), getMinute(), getSecond());
+			topic.publish("update",getHour(), getMinute(), getSecond());
+			if(getSecond()==0)
+			{
+				topic.publish("on the minute",getHour(), getMinute(), getSecond());
 			}
-
 			try {
 				Thread.sleep(1000);
 			} catch (Exception e) {
@@ -50,6 +40,7 @@ public class Clock {
 
 	/**
 	 * 取得小時
+	 * 
 	 * @return 小時
 	 */
 	private int getHour() {
@@ -58,6 +49,7 @@ public class Clock {
 
 	/**
 	 * 取得分鐘
+	 * 
 	 * @return 分鐘
 	 */
 	private int getMinute() {
@@ -66,6 +58,7 @@ public class Clock {
 
 	/**
 	 * 取得秒數
+	 * 
 	 * @return 秒數
 	 */
 	private int getSecond() {
